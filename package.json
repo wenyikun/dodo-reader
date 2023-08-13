@@ -1,23 +1,27 @@
 {
   "name": "dodo-reader",
   "displayName": "Dodo Reader",
-  "description": "",
+  "description": "A VSCode extension that can read ePub files.",
   "version": "0.0.1",
+  "publisher": "wenyikun",
+  "icon": "public/logo.png",
   "engines": {
     "vscode": "^1.75.0"
   },
   "categories": [
     "Other"
   ],
+  "keywords": [
+    "epub",
+    "reader"
+  ],
+  "repository": {
+    "url": "https://github.com/wenyikun/dodo-reader.git",
+    "type": "github"
+  },
   "activationEvents": [],
   "main": "./dist/extension.js",
   "contributes": {
-    "commands": [
-      {
-        "command": "dodo-reader.openEpub",
-        "title": "Open ePub File"
-      }
-    ],
     "customEditors": [
       {
         "viewType": "dodo-reader.epubEditor",
@@ -41,19 +45,24 @@
     "test": "node ./out/test/runTest.js"
   },
   "devDependencies": {
+    "@element-plus/icons-vue": "^2.1.0",
     "@types/glob": "^8.1.0",
     "@types/mocha": "^10.0.1",
     "@types/node": "16.x",
-    "@types/vscode": "^1.81.0",
+    "@types/vscode": "^1.75.0",
     "@typescript-eslint/eslint-plugin": "^5.53.0",
     "@typescript-eslint/parser": "^5.53.0",
     "@vitejs/plugin-vue": "^4.2.3",
     "@vscode/test-electron": "^2.2.3",
+    "element-plus": "^2.3.9",
+    "epubjs": "^0.3.93",
     "eslint": "^8.34.0",
     "glob": "^8.1.0",
     "mocha": "^10.2.0",
     "tsup": "^7.2.0",
     "typescript": "^5.0.2",
+    "unplugin-auto-import": "^0.16.6",
+    "unplugin-vue-components": "^0.25.1",
     "vite": "^4.4.5",
     "vue-tsc": "^1.8.5"
   }

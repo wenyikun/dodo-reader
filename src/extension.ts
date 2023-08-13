@@ -5,11 +5,9 @@ import { readFileSync } from 'fs'
 
 class EpubDocument implements CustomDocument {
 	uri: vscode.Uri;
-	data: Uint8Array;
 
-	constructor(uri: vscode.Uri, data: Uint8Array) {
+	constructor(uri: vscode.Uri) {
 		this.uri = uri;
-		this.data = data;
 	}
 
 	dispose(): void { }
@@ -22,14 +20,15 @@ class EpubEditorProvider implements Partial<CustomEditorProvider> {
 	}
 
 	async resolveCustomEditor(document: CustomDocument, webviewPanel: WebviewPanel, _token: CancellationToken) {
-		webviewPanel.webview.html = this.getWebviewContent(webviewPanel);
+		const fileData = JSON.stringify(Array.from(new Uint8Array(readFileSync(document.uri.fsPath))))
+		webviewPanel.webview.html = this.getWebviewContent(webviewPanel, fileData);
 	}
 
 	async openCustomDocument(uri: vscode.Uri, openContext: vscode.CustomDocumentOpenContext, token: vscode.CancellationToken) {
-		return new EpubDocument(uri, new Uint8Array(0));
+		return new EpubDocument(uri)
 	}
 
-	private getWebviewContent(webviewPanel: WebviewPanel) {
+	private getWebviewContent(webviewPanel: WebviewPanel, fileData: string) {
 		const extensionUri = this.context.extensionUri
 		const staticUri = vscode.Uri.joinPath(extensionUri, 'dist/web/')
 		webviewPanel.webview.options = {
@@ -38,7 +37,7 @@ class EpubEditorProvider implements Partial<CustomEditorProvider> {
 		};
 
 		let webviewContent = readFileSync(vscode.Uri.joinPath(extensionUri, 'dist/web/index.html').fsPath, { encoding: 'utf-8' })
-		webviewContent = webviewContent.replace('BASE_URL', webviewPanel.webview.asWebviewUri(staticUri).toString())
+		webviewContent = webviewContent.replace('BASE_URL', webviewPanel.webview.asWebviewUri(staticUri).toString()).replace('FILE_DATA', fileData)
 
 		return webviewContent
 	}
