@@ -2,7 +2,7 @@
   "name": "dodo-reader",
   "displayName": "Dodo Reader",
   "description": "A VSCode extension that can read ePub files.",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "publisher": "wenyikun",
   "icon": "public/logo.png",
   "engines": {

@@ -13,6 +13,7 @@ const nextArrowShow = ref(false)
 const epubToc = ref()
 let book: any = null // Variable to hold the eBook object
 let rendition: any = null // Variable to hold the eBook rendition
+let currentDoc: any = null
 
 onMounted(() => {
   // Load the eBook using ePub.js with the provided file data
@@ -32,6 +33,7 @@ onMounted(() => {
 
   // Listen for changes in the eBook's location (relocation)
   rendition.on('relocated', function (location: any) {
+    currentLoc.value = getCurrentLoc(location.start.href) // Update the current location
     localStorage.setItem(`${book.key()}_pos`, location.start.cfi)
   })
 
@@ -40,6 +42,7 @@ onMounted(() => {
   rendition.hooks.content.register((contents: any) => {
     // Apply the same CSS styles as the document's root element
     contents.document.documentElement.style.cssText = doc.style.cssText
+    currentDoc = contents.document
     // Add custom stylesheet rules to the eBook content
     return contents.addStylesheetRules({
       body: {
@@ -72,11 +75,45 @@ onMounted(() => {
     rendition.on('rendered', (section: any) => {
       prevArrowShow.value = !!section.prev()
       nextArrowShow.value = !!section.next()
-      currentLoc.value = section // Update the current location
       rendition.on('keyup', keyListener) // Attach key listener for navigation
     })
   })
 })
+
+// Determine positioning by comparing scroll position and anchor location
+const getCurrentLoc = (target: string) => {
+  const item = book.navigation.toc.find((item: any) => item.href.includes(target))
+  if (item.subitems.length > 0) {
+    const scrollTop = viewer.value.querySelector('.epub-container').scrollTop
+    const getTargetItem = (items: any): any => {
+      let i = 0
+      for (; i < items.length; i++) {
+        const hash = items[i].href.split('#')[1]
+        if (hash) {
+          const el = currentDoc.getElementById(hash)
+          if (el && el.offsetTop > viewer.value.offsetHeight + scrollTop) {
+            break
+          }
+        }
+      }
+      if (i === 0) {
+        return null
+      }
+      if (items[i - 1].subitems.length > 0) {
+        const subitem = getTargetItem(items[i - 1].subitems)
+        if (subitem) {
+          return subitem
+        }
+      }
+      return items[i - 1]
+    }
+    const subitem = getTargetItem(item.subitems)
+    if (subitem) {
+      return subitem
+    }
+  }
+  return item
+}
 
 const onSelected = (item: any) => {
   rendition.display(item.href) // Display the selected content
