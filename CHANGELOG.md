@@ -7,3 +7,9 @@
 ### Fixed
 
 - Fix the inaccuracy of the location
+
+## [0.1.0] - 2023-0816
+
+### Added
+
+- Support PDF files.

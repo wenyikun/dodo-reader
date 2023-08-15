@@ -1,8 +1,8 @@
 {
   "name": "dodo-reader",
   "displayName": "Dodo Reader",
-  "description": "A VSCode extension that can read ePub files.",
-  "version": "0.0.2",
+  "description": "A VSCode extension that can read ePub/PDF files.",
+  "version": "0.1.0",
   "publisher": "wenyikun",
   "icon": "public/logo.png",
   "engines": {
@@ -13,7 +13,7 @@
   ],
   "keywords": [
     "epub",
-    "reader"
+    "pdf"
   ],
   "repository": {
     "url": "https://github.com/wenyikun/dodo-reader.git",
@@ -29,6 +29,15 @@
         "selector": [
           {
             "filenamePattern": "*.epub"
+          }
+        ]
+      },
+      {
+        "viewType": "dodo-reader.pdfEditor",
+        "displayName": "PDF Viewer",
+        "selector": [
+          {
+            "filenamePattern": "*.pdf"
           }
         ]
       }
