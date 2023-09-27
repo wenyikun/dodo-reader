@@ -41,11 +41,12 @@ const handleClick = (item: any) => {
   font-size: 16px;
 }
 .toc li > ul {
-  padding: 10px;
+  padding: 6px 10px;
+  font-size: 0.9em;
 }
 .toc li span {
   display: block;
-  padding: 8px 10px 8px 16px;
+  padding: 4px 5px 4px 8px;
   line-height: 24px;
   cursor: pointer;
   white-space: nowrap;

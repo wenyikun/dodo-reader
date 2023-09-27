@@ -2,7 +2,7 @@
   "name": "dodo-reader",
   "displayName": "Dodo Reader",
   "description": "A VSCode extension that can read ePub/PDF files.",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "publisher": "wenyikun",
   "icon": "public/logo.png",
   "engines": {
@@ -13,7 +13,8 @@
   ],
   "keywords": [
     "epub",
-    "pdf"
+    "pdf",
+    "ChatGPT"
   ],
   "repository": {
     "url": "https://github.com/wenyikun/dodo-reader.git",
@@ -40,6 +41,63 @@
             "filenamePattern": "*.pdf"
           }
         ]
+      }
+    ],
+    "configuration": {
+      "title": "Dodo Reader",
+      "properties": {
+        "dodo-reader.chatApi": {
+          "type": "string",
+          "default": "https://api.openai.com/v1/chat/completions",
+          "description": "OpenAI API URL"
+        },
+        "dodo-reader.chatModel": {
+          "type": "string",
+          "default": "gpt-3.5-turbo",
+          "description": "OpenAI API Model",
+          "enum": [
+            "gpt-3.5-turbo",
+            "gpt-3.5-turbo-0301",
+            "gpt-3.5-turbo-0613",
+            "gpt-3.5-turbo-16k",
+            "gpt-3.5-turbo-16k-0613",
+            "gpt-4",
+            "gpt-4-0314",
+            "gpt-4-0613",
+            "gpt-4-32k",
+            "gpt-4-32k-0314",
+            "gpt-4-32k-0613"
+          ]
+        },
+        "dodo-reader.chatApiKey": {
+          "type": "string",
+          "default": "",
+          "description": "OpenAI API Key"
+        }
+      }
+    },
+    "menus": {
+      "webview/context": [
+        {
+          "command": "dodo-reader.copy",
+          "when": "webviewId == 'dodo-reader.epubEditor'"
+        },
+        {
+          "command": "dodo-reader.translate",
+          "when": "webviewId == 'dodo-reader.epubEditor'"
+        }
+      ]
+    },
+    "commands": [
+      {
+        "command": "dodo-reader.copy",
+        "title": "Copy",
+        "category": "Dodo Reader"
+      },
+      {
+        "command": "dodo-reader.translate",
+        "title": "Translate",
+        "category": "Dodo Reader"
       }
     ]
   },
@@ -73,6 +131,10 @@
     "unplugin-auto-import": "^0.16.6",
     "unplugin-vue-components": "^0.25.1",
     "vite": "^4.4.5",
+    "vue-i18n": "^9.2.2",
     "vue-tsc": "^1.8.5"
+  },
+  "dependencies": {
+    "axios": "^1.4.0"
   }
 }

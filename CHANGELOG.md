@@ -1,6 +1,20 @@
-## [0.0.1] - 2023-0814
+## [0.1.2] - 2023-0907
 
-- Support for reading epub files.
+### Changed
+
+- Update the loading of the epub file for faster speed.
+
+## [0.1.1] - 2023-0907
+
+### Added
+
+- Add translation functionality.
+
+## [0.1.0] - 2023-0816
+
+### Added
+
+- Support PDF files.
 
 ## [0.0.2] - 2023-0815
 
@@ -8,8 +22,6 @@
 
 - Fix the inaccuracy of the location
 
-## [0.1.0] - 2023-0816
+## [0.0.1] - 2023-0814
 
-### Added
-
-- Support PDF files.
+- Support for reading epub files.
