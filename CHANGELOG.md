@@ -1,3 +1,10 @@
+## [0.2.0] - 2025-0327
+
+### Added
+
+- Add EPUB theme adaptation.
+- Support EPUB to use Copilot chat.
+
 ## [0.1.2] - 2023-0907
 
 ### Changed
