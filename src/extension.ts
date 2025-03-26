@@ -121,9 +121,9 @@ export function activate(context: ExtensionContext) {
     ) => {
       const messages = []
       const previousMessages = context.history.filter((h) => h instanceof vscode.ChatResponseTurn)
-      previousMessages.forEach((m) => {
+      previousMessages.forEach((m: any) => {
         let fullMessage = ''
-        m.response.forEach((r) => {
+        m.response.forEach((r: any) => {
           const mdPart = r as vscode.ChatResponseMarkdownPart
           fullMessage += mdPart.value.value
         })
