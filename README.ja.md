@@ -23,7 +23,7 @@ Dodo Reader は、EPUB/PDF などの様々なフォーマットの読書を可�
 
 1. EPUB ファイルを開きます。
 2. Copilot パネルを開き、`dodo-reader` ロールを呼び出します。
-   ![](https://fe.vekun.com/pic-fly/1spqbuptr.jpg)
+   ![](https://fe.vekun.com/pic-fly/1spqbuptr.jpg?t=1)
 
 3. チャット、翻訳、または全文や選択したテキストの要約ができます。
    ![](https://fe.vekun.com/pic-fly/rhn70wnk.jpg)

@@ -23,7 +23,7 @@ Dodo Reader é uma extensão do Visual Studio Code que permite a leitura de vár
 
 1. Abra um arquivo EPUB.
 2. Abra o painel do Copilot e invoque o papel `dodo-reader`.
-   ![](https://fe.vekun.com/pic-fly/1spqbuptr.jpg)
+   ![](https://fe.vekun.com/pic-fly/1spqbuptr.jpg?t=1)
 
 3. Você pode conversar, traduzir ou resumir todo o texto ou o texto selecionado.
    ![](https://fe.vekun.com/pic-fly/rhn70wnk.jpg)

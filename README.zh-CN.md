@@ -23,7 +23,7 @@ Dodo Reader 是一个 Visual Studio Code 扩展，允许阅读 EPUB/PDF 等多�
 
 1. 打开 EPUB 文件。
 2. 打开 Copilot 面板并召唤 `dodo-reader` 角色。
-   ![](https://fe.vekun.com/pic-fly/1spqbuptr.jpg)
+   ![](https://fe.vekun.com/pic-fly/1spqbuptr.jpg?t=1)
 
 3. 您可以聊天、翻译或总结全文或选定文本。
    ![](https://fe.vekun.com/pic-fly/rhn70wnk.jpg)

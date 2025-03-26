@@ -23,7 +23,7 @@ Dodo Reader is a Visual Studio Code extension that allows reading various format
 
 1. Open an EPUB file.
 2. Open the Copilot panel and summon the `dodo-reader` role.
-   ![](https://fe.vekun.com/pic-fly/1spqbuptr.jpg)
+   ![](https://fe.vekun.com/pic-fly/1spqbuptr.jpg?t=1)
 
 3. You can chat, translate, or summarize the entire text or selected text.
    ![](https://fe.vekun.com/pic-fly/rhn70wnk.jpg)
