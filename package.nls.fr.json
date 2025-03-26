@@ -3,6 +3,6 @@
   "dodo-reader.translate.title": "Traduire",
   "dodo-reader.chat.title": "Créer une discussion",
   "dodo-reader.chatParticipant.description": "N'hésitez pas à me poser des questions sur ce fichier epub !",
-  "dodo-reader.command.translate.description": "Entrez la langue cible pour la traduction",
+  "dodo-reader.command.translate.description": "Entrez la langue cible pour la traduction (traduire le texte sélectionné ou le contenu entier)",
   "dodo-reader.command.summarize.description": "Résumer le contenu du texte"
 }

@@ -145,7 +145,7 @@ export function activate(context: ExtensionContext) {
       } else if (request.command === 'summarize') {
         messages.push(vscode.LanguageModelChatMessage.User(vscode.l10n.t('Summarize the text:') + '\n' + content))
       } else {
-        messages.push(vscode.LanguageModelChatMessage.User(request.prompt))
+        messages.push(vscode.LanguageModelChatMessage.User(request.prompt + '\n' + content))
       }
 
       const chatResponse = await request.model.sendRequest(messages, {}, token)

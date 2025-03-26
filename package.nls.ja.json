@@ -3,6 +3,6 @@
   "dodo-reader.translate.title": "翻訳",
   "dodo-reader.chat.title": "チャットを作成",
   "dodo-reader.chatParticipant.description": "このepubファイルについて何でも聞いてください！",
-  "dodo-reader.command.translate.description": "翻訳の対象言語を入力してください",
+  "dodo-reader.command.translate.description": "翻訳の対象言語を入力してください（選択したテキストまたは全文を翻訳）",
   "dodo-reader.command.summarize.description": "テキスト内容を要約する"
 }
