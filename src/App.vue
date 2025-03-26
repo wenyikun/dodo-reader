@@ -3,7 +3,7 @@ import { ref, onMounted, watch } from 'vue'
 import ePub from 'epubjs'
 import EpubToc from './components/EpubToc.vue'
 import { Expand, Fold, ArrowLeftBold, ArrowRightBold } from '@element-plus/icons-vue'
-import { DO_COPY, DO_TRANSLATE } from './utils/messageTypes'
+import { DO_COPY, DO_TRANSLATE, GET_CONTENT } from './utils/messageTypes'
 import webviewMessages from './utils/webviewMessages'
 import { useI18n } from 'vue-i18n'
 import { ElMessage } from 'element-plus'
@@ -36,14 +36,118 @@ const targetLang = ref(localStorage.getItem('dodo-reader.targetLang') || navigat
 const sourceLangs = ref({ auto: t('autoCheck'), ...langs })
 const targetLangs = ref({ ...langs })
 
-webviewMessages.sendContents((messages as any)[navigator.language || 'en-US'])
+// webviewMessages.sendContents((messages as any)[navigator.language || 'en-US'])
 
-watch(() => sourceLang.value, (v) => {
-  localStorage.setItem('dodo-reader.sourceLang', v)
-})
-watch(() => targetLang.value, (v) => {
-  localStorage.setItem('dodo-reader.targetLang', v)
-})
+watch(
+  () => sourceLang.value,
+  (v) => {
+    localStorage.setItem('dodo-reader.sourceLang', v)
+  }
+)
+watch(
+  () => targetLang.value,
+  (v) => {
+    localStorage.setItem('dodo-reader.targetLang', v)
+  }
+)
+
+function processTextNodes(node: Node) {
+  if (node.nodeType === Node.TEXT_NODE && node.textContent?.trim()) {
+    const parent = node.parentElement
+    if (parent && !['script', 'style'].includes(parent.tagName.toLowerCase())) {
+      // 获取当前文本颜色
+      const computedStyle = getComputedStyle(parent)
+      const currentColor = computedStyle.color
+
+      // 如果是深色文本，改为浅色
+      if (isColorDark(currentColor)) {
+        parent.style.color = invertTextColor(currentColor)
+      }
+    }
+  } else if (node.nodeType === Node.ELEMENT_NODE) {
+    // 处理元素节点的背景色
+    const element = node as HTMLElement
+    const computedStyle = getComputedStyle(element)
+    const backgroundColor = computedStyle.backgroundColor
+
+    // 如果有深色背景，改为浅色背景
+    if (backgroundColor && backgroundColor !== 'rgba(0, 0, 0, 0)' && backgroundColor !== 'transparent') {
+      if (!isColorDark(backgroundColor)) {
+        element.style.backgroundColor = invertBackgroundColor(backgroundColor)
+      }
+    }
+
+    // 递归处理子节点
+    node.childNodes.forEach(processTextNodes)
+  }
+}
+
+// 判断颜色是否为深色
+function isColorDark(color: string): boolean {
+  // 解析颜色值
+  const rgb = parseColor(color)
+  if (!rgb) return false
+
+  // 计算亮度 (基于人眼对RGB的感知)
+  const brightness = (rgb.r * 299 + rgb.g * 587 + rgb.b * 114) / 1000
+  return brightness < 128 // 小于128认为是深色
+}
+
+// 解析颜色字符串为RGB对象
+function parseColor(color: string): { r: number; g: number; b: number } | null {
+  if (color.startsWith('rgb')) {
+    const matches = color.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)(?:,\s*[\d.]+)?\)/)
+    if (matches) {
+      return {
+        r: parseInt(matches[1], 10),
+        g: parseInt(matches[2], 10),
+        b: parseInt(matches[3], 10),
+      }
+    }
+  } else if (color.startsWith('#')) {
+    let hex = color.substring(1)
+    if (hex.length === 3) {
+      hex = hex
+        .split('')
+        .map((h) => h + h)
+        .join('')
+    }
+    return {
+      r: parseInt(hex.substring(0, 2), 16),
+      g: parseInt(hex.substring(2, 4), 16),
+      b: parseInt(hex.substring(4, 6), 16),
+    }
+  }
+  return null
+}
+
+// 反转文本颜色
+function invertTextColor(color: string): string {
+  const rgb = parseColor(color)
+
+  if (!rgb) return '#ffffff'
+
+  // 如果是黑色或深色，变为白色
+  if (rgb.r < 20 && rgb.g < 20 && rgb.b < 20) {
+    return '#ffffff'
+  }
+
+  // 如果是灰色，变为浅灰色
+  if (Math.abs(rgb.r - rgb.g) < 30 && Math.abs(rgb.g - rgb.b) < 30 && Math.abs(rgb.r - rgb.b) < 30) {
+    return `rgb(${Math.min(255, rgb.r + 100)}, ${Math.min(255, rgb.g + 100)}, ${Math.min(255, rgb.b + 100)})`
+  }
+
+  return color
+}
+
+// 反转背景颜色
+function invertBackgroundColor(color: string): string {
+  const rgb = parseColor(color)
+  if (!rgb) return 'transparent'
+
+  // 如果是浅色背景，变为深色
+  return `rgb(${Math.max(0, rgb.r - 50)}, ${Math.max(0, rgb.g - 50)}, ${Math.max(0, rgb.b - 50)})`
+}
 
 onMounted(() => {
   // Load the eBook using ePub.js with the provided file data
@@ -87,6 +191,12 @@ onMounted(() => {
     contents.document.documentElement.style.cssText = doc.style.cssText
     currentDoc = contents.document
 
+    webviewMessages.getConfig().then((config: any) => {
+      if (config.isDarkTheme) {
+        processTextNodes(contents.document.body)
+      }
+    })
+
     // Listen Uncheck and hide button
     // currentDoc.addEventListener('selectionchange', () => {
     //   if (!contents.window.getSelection().toString()) {
@@ -113,9 +223,8 @@ onMounted(() => {
     })
     // Add custom stylesheet rules to the eBook content
     return contents.addStylesheetRules({
-      body: {
-        // color: 'var(--vscode-editor-foreground)'
-        // 'background-color': '#fff',
+      html: {
+        'background-color': 'var(--vscode-editor-background)',
       },
     })
   })
@@ -165,6 +274,10 @@ onMounted(() => {
   webviewMessages.on(DO_TRANSLATE, () => {
     translata()
     // translationVisible.value = true
+  })
+
+  webviewMessages.on(GET_CONTENT, () => {
+    webviewMessages.getContent(selectionContent.value || currentDoc.body.innerText)
   })
 })
 
@@ -221,7 +334,8 @@ const translata = () => {
           })
         }
       }
-    }).catch(() => {
+    })
+    .catch(() => {
       loading.value = false
       ElMessage.error('Error.')
     })
@@ -330,7 +444,7 @@ const handleMousedown = (event: MouseEvent) => {
     <div v-if="draging" class="sash-overlay"></div>
     <div ref="viewer" class="viewer">
       <!-- <SelectionMenus v-if="showMenus" :left="menusLeft" :top="menusTop" :content="selectionContent"></SelectionMenus> -->
-      <el-popover placement="bottom" width="80%" :visible="translationVisible">
+      <!-- <el-popover placement="bottom" width="80%" :visible="translationVisible">
         <template #reference>
           <div class="translation" :style="{ left: menusLeft + 'px', top: menusTop + 'px' }"></div>
         </template>
@@ -344,7 +458,7 @@ const handleMousedown = (event: MouseEvent) => {
           <el-button type="primary" :disabled="loading" @click="translata">{{ t('retranslate') }}</el-button>
         </div>
         <div class="translate-content-result">{{ result }}</div>
-      </el-popover>
+      </el-popover> -->
       <div v-if="prevArrowShow" class="icon icon-prev" @click="toPrev">
         <el-icon><ArrowLeftBold /></el-icon>
       </div>

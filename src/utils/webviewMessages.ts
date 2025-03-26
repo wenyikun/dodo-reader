@@ -1,4 +1,4 @@
-import { CONFIG, FETCH, SHOW_INFORMATION_MESSAGE, SET_TOC, DO_COPY, DO_TRANSLATE, CONTENTS } from './messageTypes'
+import { CONFIG, FETCH, SHOW_INFORMATION_MESSAGE, SET_TOC, DO_COPY, DO_TRANSLATE, CONTENTS, GET_CONTENT } from './messageTypes'
 import type { AxiosRequestConfig } from 'axios'
 
 // Define a class for handling communication with the webview
@@ -38,7 +38,7 @@ class WebviewMessages {
         }
         // Delete the promise from the map
         this.promises.delete(event.data.command)
-      } else if (event.data.command === DO_COPY || event.data.command === DO_TRANSLATE) {
+      } else if (event.data.command === DO_COPY || event.data.command === DO_TRANSLATE || event.data.command === GET_CONTENT) {
         const callbacks = this.callbacks.get(event.data.command)
         for (const callback of callbacks) {
           callback(event.data.data)
@@ -97,6 +97,10 @@ class WebviewMessages {
 
   sendContents(contents: any) {
     this.vscode.postMessage({ command: CONTENTS, data: contents })
+  }
+
+  getContent(v: string) {
+    this.vscode.postMessage({ command: GET_CONTENT, data: v })
   }
 
   // Generate a unique command based on the prefix and timestamp

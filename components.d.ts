@@ -7,11 +7,9 @@ export {}
 
 declare module 'vue' {
   export interface GlobalComponents {
-    ElButton: typeof import('element-plus/es')['ElButton']
+    ElAvatar: typeof import('element-plus/es')['ElAvatar']
     ElIcon: typeof import('element-plus/es')['ElIcon']
-    ElOption: typeof import('element-plus/es')['ElOption']
-    ElPopover: typeof import('element-plus/es')['ElPopover']
-    ElSelect: typeof import('element-plus/es')['ElSelect']
+    ElInput: typeof import('element-plus/es')['ElInput']
     EpubToc: typeof import('./src/components/EpubToc.vue')['default']
   }
 }

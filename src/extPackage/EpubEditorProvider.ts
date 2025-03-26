@@ -13,13 +13,16 @@ class EpubDocument implements CustomDocument {
     this.uri = uri
   }
 
-  dispose(): void { }
+  dispose(): void {}
 }
 
 class EpubEditorProvider implements Partial<CustomEditorProvider> {
   context: vscode.ExtensionContext
-  extensionMessage: ExtensionMessage | null = null
-  contents: {[key: string]: any} | null = null
+  contents: { [key: string]: any } | null = null
+  editors: {
+    extensionMessage: ExtensionMessage
+    webviewPanel: WebviewPanel
+  }[] = []
   constructor(context: vscode.ExtensionContext) {
     this.context = context
   }
@@ -31,10 +34,19 @@ class EpubEditorProvider implements Partial<CustomEditorProvider> {
       localResourceRoots: [vscode.Uri.file(dirname(document.uri.fsPath)), this.context.extensionUri],
     }
     webviewPanel.webview.html = this.getWebviewContent(webviewPanel, fileUrl)
-    this.extensionMessage = new ExtensionMessage(webviewPanel.webview)
-    this.extensionMessage.on(CONTENTS, (data) => {
+    const extensionMessage = new ExtensionMessage(webviewPanel.webview)
+    extensionMessage.on(CONTENTS, (data) => {
       this.contents = data
     })
+    this.editors.push({ extensionMessage, webviewPanel })
+    webviewPanel.onDidDispose(() => {
+      const index = this.editors.findIndex((item) => item.webviewPanel === webviewPanel)
+      this.editors.splice(index, 1)
+    })
+  }
+
+  getActiveEditor() {
+    return this.editors.find((item) => item.webviewPanel.active)
   }
 
   async openCustomDocument(
@@ -55,16 +67,22 @@ class EpubEditorProvider implements Partial<CustomEditorProvider> {
     webviewContent = webviewContent
       .replace('BASE_URL', webviewPanel.webview.asWebviewUri(staticUri).toString())
       .replace('FILE_URL', fileUrl)
+      .replace('PAGE_NAME', 'epub_reader')
+      .replace('LANGUAGE', vscode.env.language)
 
     return webviewContent
   }
 
   doCopy() {
-    this.extensionMessage?.doCopy()
+    this.getActiveEditor()?.extensionMessage.doCopy()
   }
 
   doTranslate() {
-    this.extensionMessage?.doTranslate()
+    this.getActiveEditor()?.extensionMessage.doTranslate()
+  }
+
+  getContent() {
+    return this.getActiveEditor()?.extensionMessage.getContent()
   }
 }
 

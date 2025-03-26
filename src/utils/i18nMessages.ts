@@ -1,31 +1,33 @@
 const messages = {
-  'zh-CN': {
+  'zh-cn': {
     copy: '复制',
-    translate: "翻译",
+    translate: '翻译',
     copySuccess: '内容已复制到剪贴板',
     copyFail: '复制失败',
     errorMessage: '网络错误，请重试！',
-    systemMessage: '你是一个翻译助手，用户将会提供一段{sourceLang}文本，你需要保留原格式并翻译成{targetLang}，不需要其他任何说明。',
+    systemMessage:
+      '你是一个翻译助手，用户将会提供一段{sourceLang}文本，你需要保留原格式并翻译成{targetLang}，不需要其他任何说明。',
     retranslate: '重新翻译',
     autoCheck: '自动检测',
     chatTips: '操作依赖于ChatGPT，需要配置请求参数，是否去配置?',
     yes: '是',
-    no: '否'
+    no: '否',
   },
-  'en-US': {
+  en: {
     copy: 'Copy',
     translate: 'Translate',
     copySuccess: 'Content has been copied to the clipboard',
     copyFail: 'Copy failed',
     errorMessage: 'Network error, please try again!',
-    systemMessage: 'You are a translation assistant, the user will provide a piece of {sourceLang} text, and you need to retain the original format and translate it into {targetLang}, without any further instructions.',
+    systemMessage:
+      'You are a translation assistant, the user will provide a piece of {sourceLang} text, and you need to retain the original format and translate it into {targetLang}, without any further instructions.',
     retranslate: 'Retranslate',
     autoCheck: 'Auto Detect',
     chatTips: 'Operation depends on ChatGPT, do you want to configure the request parameters?',
     yes: 'Yes',
-    no: 'No'
+    no: 'No',
   },
-  'fr-FR': {
+  fr: {
     copy: 'Copier',
     translate: 'Traduire',
     copySuccess: 'Le contenu a été copié dans le presse-papiers',
@@ -36,29 +38,59 @@ const messages = {
     autoCheck: 'Détection automatique',
     chatTips: `L'opération dépend de ChatGPT, voulez-vous configurer les paramètres de la demande ?`,
     yes: 'Oui',
-    no: 'Non'
+    no: 'Non',
   },
-  'ja-JP': {
+  ja: {
     copy: 'コピー',
     translate: '翻訳',
     copySuccess: 'コンテンツがクリップボードにコピーされました',
     copyFail: 'コピーに失敗しました',
     errorMessage: 'ネットワークエラー、もう一度試してください！',
-    systemMessage: 'あなたは翻訳アシスタントです。ユーザーは{sourceLang}のテキストを提供します。元の形式を保ち、それを{targetLang}に翻訳する必要があります。追加の説明は必要ありません。',
+    systemMessage:
+      'あなたは翻訳アシスタントです。ユーザーは{sourceLang}のテキストを提供します。元の形式を保ち、それを{targetLang}に翻訳する必要があります。追加の説明は必要ありません。',
     retranslate: '再翻訳',
     autoCheck: '自動検出',
     chatTips: '操作はChatGPTに依存しています。リクエストパラメータを設定しますか？',
     yes: 'はい',
-    no: 'いいえ'
-  }
-};
-
+    no: 'いいえ',
+  },
+  es: {
+    copy: 'Copiar',
+    translate: 'Traducir',
+    copySuccess: 'El contenido se ha copiado al portapapeles',
+    copyFail: 'Error al copiar',
+    errorMessage: 'Error de red, ¡inténtalo de nuevo!',
+    systemMessage:
+      'Eres un asistente de traducción, el usuario proporcionará un texto en {sourceLang}, y debes conservar el formato original y traducirlo a {targetLang}, sin más instrucciones.',
+    retranslate: 'Retraducir',
+    autoCheck: 'Detección automática',
+    chatTips: 'La operación depende de ChatGPT, ¿quieres configurar los parámetros de la solicitud?',
+    yes: 'Sí',
+    no: 'No',
+  },
+  pt: {
+    copy: 'Copiar',
+    translate: 'Traduzir',
+    copySuccess: 'O conteúdo foi copiado para a área de transferência',
+    copyFail: 'Falha ao copiar',
+    errorMessage: 'Erro de rede, tente novamente!',
+    systemMessage:
+      'Você é um assistente de tradução, o usuário fornecerá um texto em {sourceLang}, e você deve manter o formato original e traduzi-lo para {targetLang}, sem mais instruções.',
+    retranslate: 'Retraduzir',
+    autoCheck: 'Detecção automática',
+    chatTips: 'A operação depende do ChatGPT, deseja configurar os parâmetros da solicitação?',
+    yes: 'Sim',
+    no: 'Não',
+  },
+}
 
 export const langs = {
-  'zh-CN': '简体中文',
-  'en-US': 'English',
-  'fr-FR': 'Français',
-  'ja-JP': '日本語'
+  'zh-cn': '简体中文',
+  en: 'English',
+  fr: 'Français',
+  ja: '日本語',
+  es: 'Español',
+  pt: 'Português',
 }
 
 export default messages

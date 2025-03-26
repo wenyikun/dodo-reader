@@ -1,0 +1,8 @@
+{
+  "dodo-reader.copy.title": "Copiar",
+  "dodo-reader.translate.title": "Traducir",
+  "dodo-reader.chat.title": "Crear chat",
+  "dodo-reader.chatParticipant.description": "¡Puedes hacerme preguntas sobre este archivo epub!",
+  "dodo-reader.command.translate.description": "Introduce el idioma de destino para la traducción",
+  "dodo-reader.command.summarize.description": "Resumir el contenido del texto"
+}

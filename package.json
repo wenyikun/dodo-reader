@@ -22,6 +22,7 @@
   },
   "activationEvents": [],
   "main": "./dist/extension.js",
+  "l10n": "./l10n",
   "contributes": {
     "customEditors": [
       {
@@ -81,23 +82,43 @@
         {
           "command": "dodo-reader.copy",
           "when": "webviewId == 'dodo-reader.epubEditor'"
-        },
-        {
-          "command": "dodo-reader.translate",
-          "when": "webviewId == 'dodo-reader.epubEditor'"
         }
       ]
     },
     "commands": [
       {
         "command": "dodo-reader.copy",
-        "title": "Copy",
+        "title": "%dodo-reader.copy.title%",
         "category": "Dodo Reader"
       },
       {
         "command": "dodo-reader.translate",
-        "title": "Translate",
+        "title": "%dodo-reader.translate.title%",
         "category": "Dodo Reader"
+      },
+      {
+        "command": "dodo-reader.chat",
+        "title": "%dodo-reader.chat.title%",
+        "category": "Dodo Reader"
+      }
+    ],
+    "chatParticipants": [
+      {
+        "id": "chat-ai.dodo-reader",
+        "fullName": "Dodo Reader",
+        "name": "dodo-reader",
+        "description": "%dodo-reader.chatParticipant.description%",
+        "isSticky": true,
+        "commands": [
+          {
+            "name": "translate",
+            "description": "%dodo-reader.command.translate.description%"
+          },
+          {
+            "name": "summarize",
+            "description": "%dodo-reader.command.summarize.description%"
+          }
+        ]
       }
     ]
   },
@@ -131,6 +152,7 @@
     "unplugin-auto-import": "^0.16.6",
     "unplugin-vue-components": "^0.25.1",
     "vite": "^4.4.5",
+    "vue": "^3.5.13",
     "vue-i18n": "^9.2.2",
     "vue-tsc": "^1.8.5"
   },
